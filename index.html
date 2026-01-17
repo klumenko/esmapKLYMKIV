@@ -1,15 +1,43 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestione Turni Laboratorio</title>
+    <meta charset="UTF-8">
+    <title>Gestione turni laboratorio</title>
+    <link rel="stylesheet" href="style/style.css">
 </head>
 <body>
 
-  <h1>Gestione turni di accesso al laboratorio</h1>
+<h2>Gestione turni di accesso al laboratorio</h2>
 
-  <pre id="output"></pre>
+<h3>Inserisci un turno</h3>
+<label>Orario turno:</label><br>
+<input type="text" id="orario" placeholder="08:00-09:00"><br>
 
-  <script src="script.js"></script>
+<label>Studenti (separati da virgola):</label><br>
+<input type="text" id="studenti" placeholder="S01,S02,S03"><br><br>
+
+<button onclick="aggiungiTurno()">Aggiungi turno</button>
+
+<hr>
+
+<h3>Aggiungi studente a un turno</h3>
+<input type="text" id="orarioAdd" placeholder="09:00-10:00">
+<input type="text" id="studenteAdd" placeholder="S10">
+<button onclick="aggiungiStudente()">Aggiungi</button>
+
+<hr>
+
+<h3>Rimuovi studente da un turno</h3>
+<input type="text" id="orarioRem" placeholder="08:00-09:00">
+<input type="text" id="studenteRem" placeholder="S02">
+<button onclick="rimuoviStudente()">Rimuovi</button>
+
+<hr>
+
+<h3>Output</h3>
+<div id="output"></div>
+
+<script src="script/code.js"></script>
 </body>
 </html>
+
