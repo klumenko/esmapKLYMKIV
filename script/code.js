@@ -1,91 +1,95 @@
-// Map: chiave = orario, valore = array studenti
+// Map: orario → array studenti
 const turni = new Map();
 
-function studentePresenteAltrove(codice) {
-    for (let [orario, studenti] of turni) {
-        if (studenti.includes(codice)) {
-            return orario;
-        }
+// Controlla se uno studente è già in un altro turno
+function cercaStudente(codice) {
+    for (let [orario, lista] of turni) {
+        if (lista.includes(codice)) return orario;
     }
     return null;
 }
 
+// Aggiunge un nuovo turno
 function aggiungiTurno() {
-    const orario = document.getElementById("orario").value;
-    const studentiInput = document.getElementById("studenti").value;
+    const orario = document.getElementById("orario").value.trim();
+    const input = document.getElementById("studenti").value;
 
-    const studenti = studentiInput.split(",").map(s => s.trim());
+    if (!orario || !input) return;
 
-    // controllo studenti duplicati in altri turni
+    const studenti = input.split(",").map(s => s.trim());
+
     for (let s of studenti) {
-        const trovato = studentePresenteAltrove(s);
+        const trovato = cercaStudente(s);
         if (trovato) {
-            alert(`Errore: lo studente ${s} è già prenotato nel turno ${trovato}`);
+            alert(`Studente ${s} già presente nel turno ${trovato}`);
             return;
         }
     }
 
     turni.set(orario, studenti);
-    stampaTabella();
+    aggiornaOutput();
 }
 
+// Aggiunge studente a turno esistente
 function aggiungiStudente() {
-    const orario = document.getElementById("orarioAdd").value;
-    const studente = document.getElementById("studenteAdd").value;
+    const orario = document.getElementById("orarioAdd").value.trim();
+    const studente = document.getElementById("studenteAdd").value.trim();
 
     if (!turni.has(orario)) {
         alert("Turno non esistente");
         return;
     }
 
-    const trovato = studentePresenteAltrove(studente);
+    const trovato = cercaStudente(studente);
     if (trovato) {
-        alert(`Errore: lo studente ${studente} è già nel turno ${trovato}`);
+        alert(`Studente già nel turno ${trovato}`);
         return;
     }
 
     turni.get(orario).push(studente);
-    stampaTabella();
+    aggiornaOutput();
 }
 
+// Rimuove studente
 function rimuoviStudente() {
-    const orario = document.getElementById("orarioRem").value;
-    const studente = document.getElementById("studenteRem").value;
+    const orario = document.getElementById("orarioRem").value.trim();
+    const studente = document.getElementById("studenteRem").value.trim();
 
     if (!turni.has(orario)) return;
 
-    const studenti = turni.get(orario);
-    const index = studenti.indexOf(studente);
+    const lista = turni.get(orario);
+    turni.set(orario, lista.filter(s => s !== studente));
 
-    if (index !== -1) {
-        studenti.splice(index, 1);
-    }
-
-    stampaTabella();
+    aggiornaOutput();
 }
 
-function stampaTabella() {
-    let html = "<table border='1'><tr><th>Turno</th><th>Studenti</th></tr>";
+// Stampa tabella e statistiche
+function aggiornaOutput() {
+    let html = "<table><tr><th>Turno</th><th>Studenti</th></tr>";
 
-    let totaleStudenti = 0;
-    let maxTurno = "";
-    let maxNumero = 0;
+    let totStudenti = 0;
+    let turnoMax = "";
+    let max = 0;
 
-    for (let [orario, studenti] of turni) {
-        html += `<tr><td>${orario}</td><td>${studenti.join(", ")}</td></tr>`;
-        totaleStudenti += studenti.length;
+    for (let [orario, lista] of turni) {
+        html += `<tr><td>${orario}</td><td>${lista.join(", ")}</td></tr>`;
+        totStudenti += lista.length;
 
-        if (studenti.length > maxNumero) {
-            maxNumero = studenti.length;
-            maxTurno = orario;
+        if (lista.length > max) {
+            max = lista.length;
+            turnoMax = orario;
         }
     }
 
     html += "</table>";
-
     html += `<p>Numero turni: ${turni.size}</p>`;
-    html += `<p>Numero totale studenti: ${totaleStudenti}</p>`;
-    html += `<p>Turno con più studenti: ${maxTurno} (${maxNumero})</p>`;
+    html += `<p>Totale studenti: ${totStudenti}</p>`;
+    html += `<p>Turno più affollato: ${turnoMax} (${max})</p>`;
 
     document.getElementById("output").innerHTML = html;
 }
+
+// Event listener
+document.getElementById("btnTurno").addEventListener("click", aggiungiTurno);
+document.getElementById("btnAdd").addEventListener("click", aggiungiStudente);
+document.getElementById("btnRem").addEventListener("click", rimuoviStudente);

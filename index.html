@@ -7,37 +7,42 @@
 </head>
 <body>
 
-<h2>Gestione turni di accesso al laboratorio</h2>
+    <h2>Gestione turni di accesso al laboratorio</h2>
 
-<h3>Inserisci un turno</h3>
-<label>Orario turno:</label><br>
-<input type="text" id="orario" placeholder="08:00-09:00"><br>
+    <section>
+        <h3>Inserisci un turno</h3>
+        <label>Orario turno</label><br>
+        <input type="text" id="orario" placeholder="08:00-09:00"><br>
 
-<label>Studenti (separati da virgola):</label><br>
-<input type="text" id="studenti" placeholder="S01,S02,S03"><br><br>
+        <label>Studenti (separati da virgola)</label><br>
+        <input type="text" id="studenti" placeholder="S01,S02,S03"><br>
 
-<button onclick="aggiungiTurno()">Aggiungi turno</button>
+        <button id="btnTurno">Aggiungi turno</button>
+    </section>
 
-<hr>
+    <hr>
 
-<h3>Aggiungi studente a un turno</h3>
-<input type="text" id="orarioAdd" placeholder="09:00-10:00">
-<input type="text" id="studenteAdd" placeholder="S10">
-<button onclick="aggiungiStudente()">Aggiungi</button>
+    <section>
+        <h3>Aggiungi studente a un turno</h3>
+        <input type="text" id="orarioAdd" placeholder="09:00-10:00">
+        <input type="text" id="studenteAdd" placeholder="S10">
+        <button id="btnAdd">Aggiungi</button>
+    </section>
 
-<hr>
+    <hr>
 
-<h3>Rimuovi studente da un turno</h3>
-<input type="text" id="orarioRem" placeholder="08:00-09:00">
-<input type="text" id="studenteRem" placeholder="S02">
-<button onclick="rimuoviStudente()">Rimuovi</button>
+    <section>
+        <h3>Rimuovi studente da un turno</h3>
+        <input type="text" id="orarioRem" placeholder="08:00-09:00">
+        <input type="text" id="studenteRem" placeholder="S02">
+        <button id="btnRem">Rimuovi</button>
+    </section>
 
-<hr>
+    <hr>
 
-<h3>Output</h3>
-<div id="output"></div>
+    <h3>Output</h3>
+    <div id="output"></div>
 
-<script src="script/code.js"></script>
+    <script src="script/code.js"></script>
 </body>
 </html>
-
